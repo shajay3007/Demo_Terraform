@@ -1,7 +1,7 @@
 # Create VPC
 resource "aws_vpc" "my_vpc" {
  # cidr_block = var.vpc_cidr
-  cidr_block = "10.1.0.0/16"
+  cidr_block = var.vpc_cidr
 }
 
 # create subnet
@@ -100,7 +100,7 @@ resource "aws_route_table_association" "my_route_table_association" {
 
 #create instances
  resource "aws_instance" "myec_2" {
-  count = 3
+  count = 2
   subnet_id = aws_subnet.Public_subnet1.id
   security_groups = [aws_security_group.public_sg1.id]
   instance_type   = var.instance_type
@@ -166,7 +166,7 @@ resource "aws_lb_target_group" "my_target_group" {
 #-----------------------
 
 resource "aws_lb_target_group_attachment" "my_tg_attachment" {
-  count            = 3
+  count            = 2
   target_group_arn = aws_lb_target_group.my_target_group.arn
   target_id        = aws_instance.myec_2[count.index].id
   port             = 80
